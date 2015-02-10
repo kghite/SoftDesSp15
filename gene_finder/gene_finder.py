@@ -201,6 +201,7 @@ def coding_strand_to_AA(dna):
     amino_acid_list = ''
     i = 0
 
+<<<<<<< HEAD
     # loop through codons in dna string and add corresponding amino acid to the list
     while i in range(len(dna) - 2):
         codon = dna[i:i+3]
@@ -221,6 +222,13 @@ def gene_finder(dna):
         returns: a list of all amino acid sequences whose ORFs meet the minimum
                  length specified.
     Unable to create a doc test, because the result will be different each time
+=======
+def gene_finder(dna):
+    """ Returns the amino acid sequences that are likely coded by the specified dna
+        
+        dna: a DNA sequence
+        returns: a list of all amino acid sequences coded by the sequence dna.
+>>>>>>> 922a6e32441860ab0413630f74531e6e47a16a7c
     """
 
     threshold = longest_ORF_noncoding(dna, 1500)
