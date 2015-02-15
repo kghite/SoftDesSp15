@@ -15,8 +15,14 @@ def build_random_function(min_depth, max_depth):
                  (see assignment writeup for details on the representation of
                  these functions)
     """
-    # TODO: implement this
-    pass
+    random_function = []
+    random_depth = random.randint(min_depth, max_depth)
+    function_parts = [["prod"], ["avg"], ["cos_pi"], ["sin_pi"], ["x"], ["y"], ["x/2"], ["y/2"]]
+
+    for i in range(random_depth):
+        index = random.randint(0, 6)
+        random_function.append(function_parts[index])
+    return random_function
 
 
 def evaluate_random_function(f, x, y):
@@ -33,8 +39,11 @@ def evaluate_random_function(f, x, y):
         >>> evaluate_random_function(["y"],0.1,0.02)
         0.02
     """
-    # TODO: implement this
-    pass
+    
+    if f == ["x"]:
+        return x
+    elif f == ["y"]:
+        return y
 
 
 def remap_interval(val, input_interval_start, input_interval_end, output_interval_start, output_interval_end):
@@ -60,8 +69,16 @@ def remap_interval(val, input_interval_start, input_interval_end, output_interva
         >>> remap_interval(5, 4, 6, 1, 2)
         1.5
     """
-    # TODO: implement this
-    pass
+    x = float(val)
+    a = float(input_interval_start)
+    b = float(input_interval_end)
+    c = float(output_interval_start)
+    d = float(output_interval_end)
+
+    term1 = (x - a)/(b - a)
+    term2 = d - c
+    remapped = term1 * term2 + c
+    return remapped
 
 
 def color_map(val):
@@ -112,9 +129,9 @@ def generate_art(filename, x_size=350, y_size=350):
         x_size, y_size: optional args to set image dimensions (default: 350)
     """
     # Functions for red, green, and blue channels - where the magic happens!
-    red_function = ["x"]
-    green_function = ["y"]
-    blue_function = ["x"]
+    red_function = build_random_function(7, 9)
+    green_function = build_random_function(7, 9)
+    blue_function = build_random_function(7, 9)
 
     # Create image and loop over all pixels
     im = Image.new("RGB", (x_size, y_size))
