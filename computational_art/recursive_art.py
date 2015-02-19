@@ -1,5 +1,8 @@
-""" TODO: Put your header comment here """
+""" Author: Kathryn Hite
+    Date: 2/18/15
+    Description: Generate random art """
 
+import math
 import random
 from PIL import Image
 
@@ -15,15 +18,32 @@ def build_random_function(min_depth, max_depth):
                  (see assignment writeup for details on the representation of
                  these functions)
     """
-    random_function = []
-    random_depth = random.randint(min_depth, max_depth)
-    function_parts = [["prod"], ["avg"], ["cos_pi"], ["sin_pi"], ["x"], ["y"], ["x/2"], ["y/2"]]
+    function_parts = ["prod", "avg", "cos_pi", "sin_pi", "divide", "power"]
+    function = random.choice(function_parts)
 
-    for i in range(random_depth):
-        index = random.randint(0, 6)
-        random_function.append(function_parts[index])
-    return random_function
-
+    if max_depth > 0:
+        if min_depth > 0:
+            if function == "avg" or function == "prod":
+                return [function, build_random_function(min_depth-1, max_depth-1), build_random_function(min_depth-1, max_depth-1)]
+            else:
+                return [function, build_random_function(min_depth-1, max_depth-1)]
+        else:
+            function_parts = ["prod", "avg", "cos_pi", "sin_pi", "divide", "power", "x", "y"]
+            function = random.choice(function_parts)
+            if function == "avg" or function == "prod":
+                return [function, build_random_function(min_depth-1, max_depth-1), build_random_function(min_depth-1, max_depth-1)]
+            elif function == "x" or function == "y":
+                if random.randint(0,2) == 1:
+                    return "x"
+                else:
+                    return "y"
+            else:
+                return [function, build_random_function(min_depth, max_depth-1)]
+    else:
+        if random.randint(0,1) == 1:
+            return "x"
+        else:
+            return "y"
 
 def evaluate_random_function(f, x, y):
     """ Evaluate the random function f with inputs x,y
@@ -38,12 +58,27 @@ def evaluate_random_function(f, x, y):
         -0.5
         >>> evaluate_random_function(["y"],0.1,0.02)
         0.02
+        >>> evaluate_random_function(["sin_pi", ["divide", ["x"]]], 1, 0)
+        1.0
     """
-    
-    if f == ["x"]:
+    if f[0] == "prod":
+        return evaluate_random_function(f[1], x, y) * evaluate_random_function(f[2], x, y)
+    elif f[0] == "avg":
+        return (evaluate_random_function(f[1], x, y) + evaluate_random_function(f[2], x, y)) / 2.0
+    elif f[0] == "cos_pi":
+        return math.cos(math.pi*evaluate_random_function(f[1], x, y))
+    elif f[0] == "sin_pi":
+        return math.sin(math.pi*evaluate_random_function(f[1], x, y))
+    elif f[0] == "divide":
+        return evaluate_random_function(f[1], x, y)/2.0
+    elif f[0] == "power":
+        return evaluate_random_function(f[1], x, y)**2.0
+    elif f[0] == "x":
         return x
-    elif f == ["y"]:
+    elif f[0] == "y":
         return y
+    else:
+        raise Exception('Could not evalutate function ' + str(f))
 
 
 def remap_interval(val, input_interval_start, input_interval_end, output_interval_start, output_interval_end):
@@ -78,6 +113,7 @@ def remap_interval(val, input_interval_start, input_interval_end, output_interva
     term1 = (x - a)/(b - a)
     term2 = d - c
     remapped = term1 * term2 + c
+
     return remapped
 
 
