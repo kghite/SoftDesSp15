@@ -57,6 +57,7 @@ def get_reverse_complement(dna):
     # compute the compliment dna string
     for i in range(len(dna)):
         complement = complement + get_complement(dna[i])
+    # could also do complement = get_complement(dna[i]) + complement to skip having to do the reverse step. 
 
     return complement[::-1]
 
@@ -80,6 +81,7 @@ def rest_of_ORF(dna):
     for i in range(0, len(dna) - 2, 3):
         codon = dna[i:i+3]
         if codon in stop_codon:
+            #this e_index thing isn't nessecary, since you have two separate return statements. But it works fine, just me nitpicking style stuff.
             e_index = i
             return dna[0:e_index]
 
@@ -109,7 +111,7 @@ def find_all_ORFs_oneframe(dna):
             oneframe_orf_list.append(rest_of_ORF(dna[i:]))
             i = i + len(rest_of_ORF(dna[i:]))
         i += 3
-
+    #nice, elegant!
     return oneframe_orf_list
 
 
@@ -160,7 +162,7 @@ def longest_ORF(dna):
 
     # find the longest orf in both strands
     longest_orf = max(find_all_ORFs_both_strands(dna))
-
+    # good idea to use max, but the max function sorts alphabetically, it needs to take key=len as an argument to sort by length. I suspect this will result in you having a lower than average threshold later.
     return longest_orf
 
 
@@ -201,8 +203,8 @@ def coding_strand_to_AA(dna):
     amino_acid_list = ''
     i = 0
 
-<<<<<<< HEAD
     # loop through codons in dna string and add corresponding amino acid to the list
+    #probably want to use a for loop instead here.
     while i in range(len(dna) - 2):
         codon = dna[i:i+3]
         amino_acid = aa_table[codon]
@@ -217,19 +219,12 @@ def gene_finder(dna):
         larger than the specified threshold.
         
         dna: a DNA sequence
-        threshold: the minimum length of the ORF for it to be considered a valid
                    gene.
         returns: a list of all amino acid sequences whose ORFs meet the minimum
                  length specified.
     Unable to create a doc test, because the result will be different each time
-=======
-def gene_finder(dna):
-    """ Returns the amino acid sequences that are likely coded by the specified dna
-        
-        dna: a DNA sequence
-        returns: a list of all amino acid sequences coded by the sequence dna.
->>>>>>> 922a6e32441860ab0413630f74531e6e47a16a7c
     """
+    #come talk to me about merge conflicts some time! it looks like there were unfixed merge conflicts in your code.
 
     threshold = longest_ORF_noncoding(dna, 1500)
     print threshold

@@ -1,0 +1,5 @@
+Functionality: 5/5, but do take a look at the error you had in find_longest_ORF. That made your program not behave the way it was supposed to, though it looks like that wasn't the biggest deal. 
+
+Documentation: 5/5, nice docstrings and commenting. Would have liked to see some more interpretation of the results.
+
+Style: 5/5. Nice style!
