@@ -6,7 +6,6 @@ import math
 import random
 from PIL import Image
 
-
 def build_random_function(min_depth, max_depth):
     """ Builds a random function of depth at least min_depth and depth
         at most max_depth (see assignment writeup for definition of depth
@@ -165,9 +164,9 @@ def generate_art(filename, x_size=350, y_size=350):
         x_size, y_size: optional args to set image dimensions (default: 350)
     """
     # Functions for red, green, and blue channels - where the magic happens!
-    red_function = build_random_function(7, 9)
-    green_function = build_random_function(7, 9)
-    blue_function = build_random_function(7, 9)
+    red_function = build_random_function(12, 13)
+    green_function = build_random_function(12, 13)
+    blue_function = build_random_function(12, 13)
 
     # Create image and loop over all pixels
     im = Image.new("RGB", (x_size, y_size))
