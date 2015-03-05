@@ -1,0 +1,10 @@
+Exlpainations for Astar Images
+
+g_cost:
+	Cost value to get to the mode
+h_cost:
+	Best guess of the cost to get to the goal
+f_cost:
+	Total node cost
+
+

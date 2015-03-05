@@ -1,0 +1,7 @@
+- Intereactive building environment with blocks
+- Use keyboard input to create new blocks/place blocks
+	> Create block at hand x/y
+	> Drop block in place
+- Midproject check in goals:
+	> Hand detection with colored object
+	> Basic block placing functionality (W/ keyboard control)

@@ -64,6 +64,8 @@ class GridWorld():
         else:
             self.actors[lava_coord] = Actor( lava_coord, self, './images/lava.jpg' )
 
+    def _add_swamp(self, mouse_pos)
+
     def main_loop(self):
         running = True
         while (running):
@@ -145,8 +147,8 @@ class Paul(Actor):
 
     def get_open_adj_coords(self, coords):
         """returns list of valid coords that are adjacent to the argument, open, and not in the closed list."""
-        directions = [(1,0),(0,1),(-1,0),(0,-1)]
-        costs = [1,1,1,1]
+        directions = [(1,0),(0,1),(-1,0),(0,-1), (1,1), (-1,-1), (1,-1), (-1,1)]
+        costs = [1,1,1,1, 3, 3, 3, 3]
         adj_coords = map(lambda d: self.world._add_coords(coords,d), directions)
         in_bounds = [self.world._is_in_grid(c) and not self.world._is_occupied(c) and c not in self.closed_list for c in adj_coords]
         adj_coords = [c for (idx,c) in enumerate(adj_coords) if in_bounds[idx]]

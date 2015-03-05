@@ -1,6 +1,6 @@
 """ Author: Kathryn Hite
 	Date: 2/25/15
-	Description: Determine the average sentiment of Ancient Roman literature over time to correlate with the ages of Roman literature and history.
+	Description: Determine the average sentiment of Ancient Roman Literature over time to correlate with the ages of Roman literature.
 """
 
 from pattern.web import *
@@ -12,11 +12,11 @@ import string
 online = False
 
 def pull_text(urls, author):
-	""" Pull book text from the given Gutenber url.
+	""" Pull book text from the given Gutenber url and remove the header.
+		Split the text into sentences.
 
 		url: Project Gutenberg url for input book
-		author: author for file name
-		returns: text of the book
+		returns: list of words in the book
 	"""
 	global online
 
@@ -55,8 +55,6 @@ def get_average_sentiment(authors_by_age, urls_by_author):
 		sentiment_dict[age] = age_sentiment
 
 	return sentiment_dict
-
-
 
 def plot_sentiments(sentiment_dict):
 	""" Plot the sentiments by age using pylab
