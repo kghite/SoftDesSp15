@@ -189,7 +189,7 @@ class PipeObstacle():
         drawables = self.get_drawables()
         rectangles = []
         for d in drawables:
-            rectangles.append(d.get_rect())
+            rectangles.append(d.rect)
         return entity.get_rect().collidelist(rectangles) != -1
 
 class FlappyView():
