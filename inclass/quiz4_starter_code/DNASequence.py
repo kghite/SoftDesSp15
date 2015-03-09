@@ -1,10 +1,10 @@
-class DNASequence:
+class DNASequence(object):
     """ Represents a sequence of DNA """
     def __init__(self, nucleotides):
         """ constructs a DNASequence with the specified nucleotides.
              nucleotides: the nucleotides represented as a string of
                           capital letters consisting of A's, C's, G's, and T's """
-        pass
+        self.nucleotides = nucleotides
  
     def __str__(self):
         """ Returns a string containing the nucleotides in the DNASequence
@@ -12,7 +12,7 @@ class DNASequence:
         >>> print seq
         TTTGCC
         """
-        pass
+        return self.nucleotides
 
     def get_reverse_complement(self):
         """ Returns the reverse complement DNA sequence represented
@@ -25,7 +25,23 @@ class DNASequence:
             >>> print type(rev)
             <class '__main__.DNASequence'>
         """
-        pass
+        complement = ''
+        dna = self.nucleotides
+
+        # compute the compliment dna string
+        for i in range(len(dna)):
+            if dna[i] == "A":
+                complement = complement + 'T'
+            elif dna[i] == "C":
+                complement = complement + 'G'
+            elif dna[i] == "T":
+                complement = complement + 'A'
+            elif dna[i] == "G":
+                complement = complement + 'C'
+
+        self.complement = complement[::-1]
+
+        return self.complement
 
     def get_proportion_ACGT(self):
         """ Computes the proportion of nucleotides in the DNA sequence
@@ -40,7 +56,24 @@ class DNASequence:
         >>> print (d['A'], d['C'], d['G'], d['T'])
         (0.4, 0.2, 0.3, 0.1)
         """
-        pass
+        dna = self.nucleotides
+        prop = {}
+        count = float(len(dna))
+
+        for i in dna:
+            if i == "A":
+                prop['A'] += 1
+
+        prop[A] = prop[A]/count
+
+        self.proportions = prop
+
+        print prop
+
+        return self.proportions
+                
+
+
 
 if __name__ == '__main__':
     import doctest

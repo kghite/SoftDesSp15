@@ -1,8 +1,9 @@
 """ Block builder
     Authors: Alix McCabe, Kathryn Hite
     Description: This pygame is an interactive block builder where the user can move and place building blocks
-                    within the game by moving a colored object in front of the camera to represent the position 
-                    of the block they are placing.
+                    within the game by moving a blue object in front of the camera to represent the position 
+                    of the block they are placing.  This game works best when played in an area where there is
+                    limited blue in the backround.
     Classes: BuildModel, DrawableSurface, Background, Block, BuildView, PygameKeyboardController, Build
 """
 
@@ -109,6 +110,7 @@ class BuildModel():
         self.current_block = Block(300, 200)
         self.background = Background(width, height)
         self.obstacles = []
+        self.blocks.append(self.current_block)
 
     def get_drawables(self):
         """ Return a list of DrawableSurfaces for the model """
@@ -123,22 +125,13 @@ class BuildModel():
 
     def new_block(self, hand_x, hand_y):
         """ Create a new block at the hand position """
-        blocks = self.blocks.append(self.current_block)
         self.current_block = Block(hand_x, hand_y)
+        blocks = self.blocks.append(self.current_block)
         return self.blocks
 
     def update(self, hand_x, hand_y):
         """ Updates the model and its constituent parts """
         self.current_block.update(hand_x, hand_y)
-
-    def collision(self):
-        """ Return True if the legos hit each other and false otherwise """
-        print self.current_block
-        print self.blocks
-        if self.current_block.collided_with(self.current_block,self.blocks):
-            return True
-        else:
-            return False
 
 class DrawableSurface():
     """ A class that wraps a pygame.Surface and a pygame.Rect """
@@ -203,19 +196,6 @@ class Block():
         self.pos_x = hand_x
         self.pos_y = hand_y
 
-    def collided_with(self,entity, entities):
-        """ Returns True if the current block has
-            collided with a past block"""
-        rectangles = []
-
-        for d in range(len(entities)-1):
-            rectangles.append(entities[d].rect)
-        
-        if entity.rect.collidelist(rectangles) != -1:
-            return True
-        else:
-            return False
-
 class BuildView():
     def __init__(self, model, width, height):
         """ Initialize the view for Flappy Bird.  The input model
@@ -254,13 +234,7 @@ class PygameKeyboardController():
         
         elif not(self.space_pressed):
             self.space_pressed = True
-        
-            if self.model.collision() == False:
-                self.model.new_block(hand_x, hand_y)
-            elif self.model.collision() == True:
-                print 'Collision Detected!'
-            else:
-                self.model.new_block(hand_x, hand_y)
+            self.model.new_block(hand_x, hand_y)
 
 class Build():
     """ The main building class """
@@ -279,8 +253,6 @@ class Build():
         self.view.draw()
         self.controller.process_events(100, 100)
         self.model.update(hand_x, hand_y)
-
-        
 
 if __name__ == '__main__':
     builder = Build()
