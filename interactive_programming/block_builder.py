@@ -152,7 +152,7 @@ class DrawableSurface():
 class Background():
     """ Represents the contents of the background """
     def __init__(self, screen_width, screen_height):
-        """ initialize the background for Flappy Bird.  The variables
+        """ initialize the game background.  The variables
             screen_width and screen_height are the size of the
             screen in pixels """
         self.screen_width = screen_width
@@ -198,9 +198,8 @@ class Block():
 
 class BuildView():
     def __init__(self, model, width, height):
-        """ Initialize the view for Flappy Bird.  The input model
-            is necessary to find the position of relevant objects
-            to draw. """
+        """ Initialize the game view. We use this to 
+        find appropriate drawing positions."""
         pygame.init()
         # Retrieve width and height use screen.get_size()
         self.screen = pygame.display.set_mode((width, height))
