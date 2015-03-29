@@ -9,7 +9,7 @@ import pylab as pl
 import string
 
 # Set to true if the files are not downloaded, false if working offline with presaved files
-online = False
+online = True
 
 def pull_text(urls, author):
 	""" Pull book text from the given Gutenber url and remove the header.
