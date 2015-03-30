@@ -18,9 +18,11 @@ def pull_text(urls, author):
 		url: Project Gutenberg url for input book
 		returns: list of words in the book
 	"""
+#this global is not needed here- online is accessible within this function even without this global declaration. You use global within a function to access the global namespace. So if you wanted to instantiate online = True within pull_text globally, then you'd use global.
 	global online
+#that said, global variables are almost always a pretty bad idea, and you should avoid it even when it's not clearly bad just for the sake of good habits. Best to pass it in as an argument to the function!
 
-	if online == True:
+        if online == True: #more concisely, if online:
 		# If in online mode, pull the text and save it to a file
 		raw_text = URL(urls).download()
 		f = open(author + '.txt', 'w')
