@@ -14,6 +14,7 @@ import cv2
 import numpy as np
 import pygame.locals
 import sys
+#I don't think pykalman ever got used!
 import pykalman as pk
 
 def tracker():
@@ -24,6 +25,7 @@ def tracker():
     """
     # Get the raw camera data
     kernel = np.ones((21,21),'uint8')
+    #Doesn't look like this kernel variable is used. Was this a smoothing filter at some point? Try to regularly do code cleanup and get rid of stuff like this.
     cv2.destroyAllWindows()
     cap = cv2.VideoCapture(0)
 
@@ -31,6 +33,7 @@ def tracker():
     cx_0 = [0]*10
     cy_0 = [0]*10
 
+    #it's not great practice to have your function do more than what your docstring specifies. I'd expect this function to return an x and y coordinate, not to pass it to some previously initialized builder object. It looks like this function grew bigger than it was meant to be. Restructure code when you get the chance! You'll be surprised at how much faster it makes later work.
     while(1):
         # Take each frame
         _, frame = cap.read()
@@ -43,6 +46,7 @@ def tracker():
         lower_blue = np.array([110,50,50])
         upper_blue = np.array([130,255,255])
         thresh = cv2.inRange(hsv,np.array(lower_blue),(upper_blue))
+        #shoulda gotten rid of thresh2 if its unused
         thresh2 = thresh.copy()
 
         # Find contours in the threshold img
@@ -50,6 +54,7 @@ def tracker():
 
         # Find the contour with maximum area and store it as best_cnt
         if len(contours) ==0:
+            #what's going on here and why is best_cnt 0.00001? Does cv2.moments complain if you give it zero? Might need some more documentation here.
             best_cnt = 0.00001
         else:
             max_area = 0
@@ -72,6 +77,7 @@ def tracker():
 
         i = 1
         while i < 9:
+            #use a for loop instead when you know how many times its gonna repeat
             cx_0[i] = cx_0[i-1]
             cy_0[i] = cy_0[i-1]
             i += 1
@@ -97,6 +103,7 @@ def tracker():
             break
 
         # Run the game model with the points found by opencv
+        # it's best to make this kind of dependency explicit in your code by having the tracker function have a builder object passed to it. Depending on the builder variable having previously been initialized seems less redundant, but really causes a world of pain and makes debugging harder, particularly as things grow more complex.
         builder.run(cx, cy)
 
 
@@ -172,6 +179,7 @@ class Block():
         self.pos_y = hand_y
         # Because there are only five images, we are using if statements here, with a  larger number of images to
         # manage we would use a dictionary and lookup the random number as the key for a colored block
+        #use python's random.choice function! It's much more elegant, and will randomly choose an element from a list for you.
         i = randint(1, 5)
         if i == 1:
             self.image = pygame.image.load('images/blue_block.fw.png')
@@ -251,6 +259,7 @@ class Build():
 
     def run(self, hand_x, hand_y):
         """ The main runloop, called everytime we process a new hand x and y position """
+        #the run function should in fact run a main loop to be more clear, instead of being called by a loop from outside.
         frame_count = 0
         # Update the view, check for the spacebar and collisions, update the block position
         self.view.draw()
@@ -261,6 +270,9 @@ if __name__ == '__main__':
     builder = Build()
     # Run the game while the q key has not been pressed
     while(pygame.key.get_pressed()[pygame.K_q] != True):
+        #more conventional way of allowing quit events is the pygame.event.type == pygame.QUIT thing, which let's you x out of windows
+        #you've got an endless loop inside another endless loop, when you really only need one event loop. That's if I understand the code correctly.
+        #Alos, this pygame key press things hould really be happening inside of process_events!
         tracker()
     # Stop the video capture when the game ends
     cap.release()
